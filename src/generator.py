@@ -1,9 +1,11 @@
 from google import genai
+from google.genai import types
 from src.prompts import build_prompt
 from src.config import GEMINI_API_KEY, MODEL_NAME
 from src.database import query_database
 from src.search import get_live_news
 import json
+from src.schema import QuizQuestion
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 def generate_quiz(sport, difficulty):
@@ -25,9 +27,15 @@ def generate_quiz(sport, difficulty):
 
     response = client.models.generate_content(
     model=MODEL_NAME,
-    contents=prompt
+    contents=prompt,
+    config=types.GenerateContentConfig(
+        response_mime_type="application/json",
+        response_schema=list[QuizQuestion],
+    ),
 )
-
+    '''
     quiz = json.loads(response.text)
-
     return quiz
+    '''
+
+    return response.parsed

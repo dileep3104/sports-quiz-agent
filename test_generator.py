@@ -6,10 +6,12 @@ quiz = generate_quiz(
 )
 
 print(type(quiz))
+print(type(quiz[0]))
 print()
 
-for q in quiz:
-    print(q["question"])
-    print(q["options"])
-    print("Answer:", q["answer"])
+for question in quiz:
+    print(question.question)
+    print(question.options)
+    print("Answer:", question.answer)
+    print("Explanation:", question.explanation)
     print()
